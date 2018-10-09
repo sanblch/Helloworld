@@ -5,7 +5,7 @@ if(DEFINED ENV{TRAVIS_BUILD_NUMBER})
   set(PATCH $ENV{TRAVIS_BUILD_NUMBER})
 endif()
 
-project(Helloworld VERSION 0.0.${PATCH})
+project(helloworld VERSION 0.0.${PATCH})
 
 enable_testing()
 
@@ -20,17 +20,18 @@ include_directories(
 
 add_library(hello hello.cpp hello.h)
 
-add_executable(Helloworld main.cpp)
-add_compile_options(-Wpedantic -Wall -Wextra)
-target_link_libraries(Helloworld hello)
+add_executable(helloworld main.cpp)
+add_compile_options("-Wpedantic;-Wall;-Wextra")
+target_link_libraries(helloworld hello)
 
-install(TARGETS Helloworld RUNTIME DESTINATION bin)
+install(TARGETS helloworld RUNTIME DESTINATION bin)
 
-include(CPack)
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER sanblch)
+include(CPack)
 
 if(BUILD_TESTING)
   add_subdirectory(test)
