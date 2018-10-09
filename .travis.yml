@@ -2,7 +2,8 @@ language: cpp
 before_script:
   - sudo apt-get install libboost-test-dev -y
 script:
-  - cmake --build . --target test --target package
+  - cmake --build . --target test
+  - cmake --build . --target package
 deploy:
   provider: script
   skip_cleanup: true
