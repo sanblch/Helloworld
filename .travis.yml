@@ -1,5 +1,6 @@
 language: cpp
 before_script:
+  - sudo apt-get update
   - sudo apt-get install libboost-test-dev -y
 script:
   - cmake . -DBUILD_TESTING=ON
@@ -10,4 +11,4 @@ deploy:
   provider: script
   skip_cleanup: true
   script:
-    - curl -T helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -usanblch:$BINTRAY_API_KEY "https://api.bintray.com/content/sanblch/helloworld/helloworld/$TRAVIS_BUILD_NUMBER/helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
+    - curl -T homework-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -usanblch:$BINTRAY_API_KEY "https://api.bintray.com/content/sanblch/homework/homework/$TRAVIS_BUILD_NUMBER/homework-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"

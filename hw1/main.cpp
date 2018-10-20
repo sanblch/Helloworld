@@ -3,5 +3,5 @@
 
 int main(int, char**) {
   std::cout << "Build " << patch() << std::endl;
-  std::cout << "Hello, world!" << std::endl;
+  std::cout << "Hello, World!" << std::endl;
 }
