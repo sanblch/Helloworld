@@ -18,3 +18,7 @@ set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER sanblch)
 
 include(CPack)
+
+if(BUILD_TESTING)
+  add_subdirectory(test)
+endif()

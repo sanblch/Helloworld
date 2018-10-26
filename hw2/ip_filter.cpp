@@ -1,6 +1,8 @@
+#include <array>
 #include <cassert>
 #include <cstdlib>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 
