@@ -34,27 +34,27 @@ BOOST_AUTO_TEST_CASE(test_ip_cmp) {
   IP ip3 {{"192", "169", "0", "1"}};
   IP ip4 {{"192", "168", "1", "1"}};
   IP ip5 {{"192", "168", "0", "2"}};
-  BOOST_TEST(ip2 < ip1);
-  BOOST_TEST(ip3 < ip1);
-  BOOST_TEST(ip4 < ip1);
-  BOOST_TEST(ip5 < ip1);
-  BOOST_TEST(!(ip1 < ip1));
-  BOOST_TEST(!(ip1 < ip2));
-  BOOST_TEST(!(ip1 < ip3));
-  BOOST_TEST(!(ip1 < ip4));
-  BOOST_TEST(!(ip1 < ip5));
+  BOOST_CHECK(ip2 < ip1);
+  BOOST_CHECK(ip3 < ip1);
+  BOOST_CHECK(ip4 < ip1);
+  BOOST_CHECK(ip5 < ip1);
+  BOOST_CHECK(!(ip1 < ip1));
+  BOOST_CHECK(!(ip1 < ip2));
+  BOOST_CHECK(!(ip1 < ip3));
+  BOOST_CHECK(!(ip1 < ip4));
+  BOOST_CHECK(!(ip1 < ip5));
 }
 
 BOOST_AUTO_TEST_CASE(test_ip_lexicography) {
   IP ip1 {{"192", "168", "0", "1"}};
   IP ip2 {{"22", "168", "0", "1"}};
   IP ip3 {{"3", "169", "0", "1"}};
-  BOOST_TEST(ip1 < ip2);
-  BOOST_TEST(ip2 < ip3);
-  BOOST_TEST(ip1 < ip3);
-  BOOST_TEST(!(ip2 < ip1));
-  BOOST_TEST(!(ip3 < ip2));
-  BOOST_TEST(!(ip3 < ip1));
+  BOOST_CHECK(ip1 < ip2);
+  BOOST_CHECK(ip2 < ip3);
+  BOOST_CHECK(ip1 < ip3);
+  BOOST_CHECK(!(ip2 < ip1));
+  BOOST_CHECK(!(ip3 < ip2));
+  BOOST_CHECK(!(ip3 < ip1));
 }
 
 BOOST_AUTO_TEST_CASE(test_ip_parse) {
