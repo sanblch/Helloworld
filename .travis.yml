@@ -3,16 +3,20 @@ before_script:
   - sudo apt-get update
   - sudo apt-get install libboost-test-dev -y
 script:
+  - cd hw1
   - cmake . -DBUILD_TESTING=ON
   - cmake --build .
   - cmake --build . --target test
   - cmake --build . --target package
+  - cd hw2
+  - cmake . -DBUILD_TESTING=ON 
+  - cmake --build .
+  - cmake --build . --target test
+  - cmake --build . --target package
+  - cd ..
 deploy:
-  - provider: script1
+  - provider: script
       skip_cleanup: true
       script:
-      - curl -T helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -usanblch:$BINTRAY_API_KEY "https://api.bintray.com/content/sanblch/homework/homework/$TRAVIS_BUILD_NUMBER/helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
-  - provider: script2
-      skip_cleanup: true
-      script:
-      - curl -T ip_filter-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -usanblch:$BINTRAY_API_KEY "https://api.bintray.com/content/sanblch/homework/homework/$TRAVIS_BUILD_NUMBER/ip_filter-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
+      - curl -T hw1/helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -usanblch:$BINTRAY_API_KEY "https://api.bintray.com/content/sanblch/homework/homework/$TRAVIS_BUILD_NUMBER/helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
+      - curl -T hw2/ip_filter-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -usanblch:$BINTRAY_API_KEY "https://api.bintray.com/content/sanblch/homework/homework/$TRAVIS_BUILD_NUMBER/ip_filter-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
