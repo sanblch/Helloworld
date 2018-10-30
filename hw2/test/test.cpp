@@ -9,7 +9,7 @@ void read(const std::string& in, const T& out) {
   std::istringstream iss(in);
   T t;
   iss >> t;
-  BOOST_TEST(t == out);
+  BOOST_CHECK(t == out);
 }
 
 template<typename T>
@@ -19,7 +19,7 @@ void readwrite(const std::string& in, const std::string& out) {
   iss >> t;
   std::ostringstream oss;
   oss << t;
-  BOOST_TEST(oss.str() == out);
+  BOOST_CHECK(oss.str() == out);
 }
 
 BOOST_AUTO_TEST_SUITE(test_suite_ip_filter)
