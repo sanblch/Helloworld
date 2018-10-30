@@ -8,7 +8,7 @@ if(DEFINED ENV{TRAVIS_BUILD_NUMBER})
   set(PATCH $ENV{TRAVIS_BUILD_NUMBER})
 endif()
 
-enable_testing();
+enable_testing()
 
 project(ip_filter VERSION 0.0.${PATCH})
 
