@@ -2,26 +2,28 @@
 
 #include "ip.h"
 #include <algorithm>
+#include <cctype>
+#include <iostream>
 #include <vector>
 
 struct IPPool {
   void sort() {
-    std::sort(std::begin(pool), std::end(pool));
+    std::sort(std::begin(pool), std::end(pool), std::greater<>());
   }
 
-  void filter(std::ostream& os, const std::string& first) {
+  void filter(std::ostream& os, uint8_t first) {
     for(const auto& ip : pool)
       if(ip.address.at(0) == first)
         os << ip << std::endl;
   }
 
-  void filter(std::ostream& os, const std::string& first, const std::string& second) {
+  void filter(std::ostream& os, uint8_t first, uint8_t second) {
     for(const auto& ip : pool)
       if(ip.address.at(0) == first && ip.address.at(1) == second)
         os << ip << std::endl;
   }
 
-  void filter_any(std::ostream& os, const std::string& any) {
+  void filter_any(std::ostream& os, uint8_t any) {
     for(const auto& ip : pool)
       if(ip.any(any))
         os << ip << std::endl;
@@ -31,12 +33,11 @@ struct IPPool {
 };
 
 std::istream& operator>>(std::istream& is, IPPool& ip_pool) {
-  IP ip;
   std::string unused;
-  while(is >> ip) {
-    if(ip.any(""))
-      throw std::invalid_argument("invalid ip format");
-    ip_pool.pool.push_back(ip);
+  while(is && is.peek() != EOF)  {
+    IP ip;
+    is >> ip;
+    ip_pool.pool.emplace_back(ip);
     std::getline(is, unused);
   }
   return is;
