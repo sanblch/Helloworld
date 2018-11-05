@@ -2,10 +2,9 @@ language: cpp
 before_install:
   - sudo apt-get update
   - sudo apt-get install libboost-test-dev -y
-  - eval "${MATRIX_EVAL}"
 jobs:
   include:
-    - os: linux
+    - stage: helloworld
       addons:
         apt:
           sources:
@@ -14,8 +13,8 @@ jobs:
             - g++-5
       env:
          - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
-    - stage: helloworld
       script:
+        - eval "${MATRIX_EVAL}"
         - cd hw1
         - cmake . -DBUILD_TESTING=ON
         - cmake --build .
@@ -27,7 +26,16 @@ jobs:
         script:
           - curl -T helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -usanblch:$BINTRAY_API_KEY "https://api.bintray.com/content/sanblch/homework/homework/$TRAVIS_BUILD_NUMBER/helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
     - stage: ip_filter
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
+      env:
+         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
       script:
+        - eval "${MATRIX_EVAL}"
         - cd hw2
         - cmake . -DBUILD_TESTING=ON 
         - cmake --build .
