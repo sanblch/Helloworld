@@ -1,5 +1,9 @@
 language: cpp
-matrix:
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install libboost-test-dev -y
+  - eval "${MATRIX_EVAL}"
+jobs:
   include:
     - os: linux
       addons:
@@ -10,12 +14,6 @@ matrix:
             - g++-5
       env:
          - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
-before_install:
-  - sudo apt-get update
-  - sudo apt-get install libboost-test-dev -y
-  - eval "${MATRIX_EVAL}"
-jobs:
-  include:
     - stage: helloworld
       script:
         - cd hw1
