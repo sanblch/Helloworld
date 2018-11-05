@@ -6,21 +6,21 @@
 #include <iostream>
 #include <vector>
 
+template<unsigned N>
 struct IPPool {
   void sort() {
     std::sort(std::begin(pool), std::end(pool), std::greater<>());
   }
 
-  void filter(std::ostream& os, uint8_t first) {
-    for(const auto& ip : pool)
-      if(ip.address.at(0) == first)
+  template<typename ... Args>
+  void filter(std::ostream& os, Args ... args) {
+    static_assert(N >= sizeof ... (args), "number of arguments can't be greater than IP octet number");
+    for(const auto& ip : pool) {
+      unsigned i = 0;
+      bool ok[sizeof ... (args)] = {(ip.address.at(i++) == args)...};
+      if(std::all_of(std::begin(ok), std::end(ok), [](bool b) { return b == true; }))
         os << ip << std::endl;
-  }
-
-  void filter(std::ostream& os, uint8_t first, uint8_t second) {
-    for(const auto& ip : pool)
-      if(ip.address.at(0) == first && ip.address.at(1) == second)
-        os << ip << std::endl;
+    }
   }
 
   void filter_any(std::ostream& os, uint8_t any) {
@@ -29,13 +29,14 @@ struct IPPool {
         os << ip << std::endl;
   }
 
-  std::vector<IP> pool;
+  std::vector<IP<N>> pool;
 };
 
-std::istream& operator>>(std::istream& is, IPPool& ip_pool) {
+template<unsigned N>
+std::istream& operator>>(std::istream& is, IPPool<N>& ip_pool) {
   std::string unused;
   while(is && is.peek() != EOF)  {
-    IP ip;
+    IP<N> ip;
     is >> ip;
     ip_pool.pool.emplace_back(ip);
     std::getline(is, unused);
@@ -43,7 +44,8 @@ std::istream& operator>>(std::istream& is, IPPool& ip_pool) {
   return is;
 }
 
-std::ostream& operator<<(std::ostream& os, IPPool& ip_pool) {
+template<unsigned N>
+std::ostream& operator<<(std::ostream& os, IPPool<N>& ip_pool) {
   for(const auto& ip : ip_pool.pool) {
     os << ip << std::endl;
   }

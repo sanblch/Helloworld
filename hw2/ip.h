@@ -4,6 +4,7 @@
 #include <array>
 #include <sstream>
 
+template<unsigned N>
 struct IP {
   bool operator<(const IP& ip) const {
     return address < ip.address;
@@ -23,7 +24,7 @@ struct IP {
       });
   }
 
-  std::array<uint8_t, 4> address;
+  std::array<uint8_t, N> address;
 };
 
 std::istream& operator>>(std::istream& is, uint8_t& octet) {
@@ -33,20 +34,17 @@ std::istream& operator>>(std::istream& is, uint8_t& octet) {
   return is;
 }
 
-std::istream& operator>>(std::istream& is, IP& ip) {
+template<unsigned N>
+std::istream& operator>>(std::istream& is, IP<N>& ip) {
   bool ok = true;
-  is >> ip.address.at(0);
-  ok &= (is.peek() == '.');
-  is.ignore();
-  is >> ip.address.at(1);
-  ok &= (is.peek() == '.');
-  is.ignore();
-  is >> ip.address.at(2);
-  ok &= (is.peek() == '.');
-  is.ignore();
+  for(unsigned i = 0; i < N - 1; ++i) {
+    is >> ip.address.at(i);
+    ok &= (is.peek() == '.');
+    is.ignore();
+  }
   if(!ok)
     throw std::invalid_argument("invalid ip format");
-  is >> ip.address.at(3);
+  is >> ip.address.at(N - 1);
   return is;
 }
 
@@ -55,10 +53,11 @@ std::ostream& operator<<(std::ostream& os, uint8_t octet) {
   return os;
 }
 
-std::ostream& operator<<(std::ostream& os, const IP& ip) {
-  os << ip.address.at(0) << "." <<
-    ip.address.at(1) << "." <<
-    ip.address.at(2) << "." <<
-    ip.address.at(3);
+template<unsigned N>
+std::ostream& operator<<(std::ostream& os, const IP<N>& ip) {
+  for(unsigned i = 0; i < N - 1; ++i) {
+    os << ip.address.at(i) << ".";
+  }
+  os << ip.address.at(N - 1);
   return os;
 }
