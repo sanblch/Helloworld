@@ -1,22 +1,14 @@
 language: cpp
 before_install:
+  - sudo -E apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
   - sudo apt-get update
-  - sudo apt-get install libboost-test-dev -y
+  - sudo apt-get install g++-5 libboost-test-dev -y
 jobs:
   include:
-    - stage: helloworld
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-5
-      env:
-         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+    - stage: allocator
       script:
-        - eval "${MATRIX_EVAL}"
-        - cd hw1
-        - cmake . -DBUILD_TESTING=ON
+        - cd hw3
+        - cmake .
         - cmake --build .
         - cmake --build . --target test
         - cmake --build . --target package
@@ -24,18 +16,11 @@ jobs:
         provider: script
         skip_cleanup: true
         script:
-          - curl -T helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -usanblch:$BINTRAY_API_KEY "https://api.bintray.com/content/sanblch/homework/homework/$TRAVIS_BUILD_NUMBER/helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
+          - curl -T allocator-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -usanblch:$BINTRAY_API_KEY "https://api.bintray.com/content/sanblch/homework/homework/$TRAVIS_BUILD_NUMBER/allocator-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
     - stage: ip_filter
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-5
       env:
-         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+        - CXX=g++-5
       script:
-        - eval "${MATRIX_EVAL}"
         - cd hw2
         - cmake . -DBUILD_TESTING=ON 
         - cmake --build .
@@ -46,3 +31,17 @@ jobs:
         skip_cleanup: true
         script:
           - curl -T ip_filter-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -usanblch:$BINTRAY_API_KEY "https://api.bintray.com/content/sanblch/homework/homework/$TRAVIS_BUILD_NUMBER/ip_filter-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
+    - stage: helloworld
+      env:
+        - CXX=g++-5
+      script:
+        - cd hw1
+        - cmake . -DBUILD_TESTING=ON
+        - cmake --build .
+        - cmake --build . --target test
+        - cmake --build . --target package
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script:
+          - curl -T helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -usanblch:$BINTRAY_API_KEY "https://api.bintray.com/content/sanblch/homework/homework/$TRAVIS_BUILD_NUMBER/helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
