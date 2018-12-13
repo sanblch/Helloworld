@@ -1,0 +1,30 @@
+cmake_minimum_required(VERSION 3.2)
+
+SET(CMAKE_CXX_STANDARD 17)
+SET(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(PATCH 0)
+if(DEFINED ENV{TRAVIS_BUILD_NUMBER})
+  set(PATCH $ENV{TRAVIS_BUILD_NUMBER})
+endif()
+
+project(range VERSION 0.0.${PATCH})
+
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup(NO_OUTPUT_DIRS)
+conan_define_targets()
+
+add_executable(${PROJECT_NAME} ip_filter.cpp ip.h)
+set_target_properties(${PROJECT_NAME} PROPERTIES
+  COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra")
+
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
+
+set(CPACK_GENERATOR DEB)
+set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
+set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER alexk)
+
+include(CPack)
