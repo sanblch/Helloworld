@@ -27,6 +27,8 @@ public:
     check_index();
     if(mtrx.data.count(index) || val != N)
       mtrx.data[index] = val;
+    if(val == N)
+      mtrx.data.erase(index);
     return *this;
   }
 
