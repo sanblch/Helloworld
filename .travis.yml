@@ -5,6 +5,35 @@ before_install:
   - sudo apt-get install libboost-test-dev -y
 jobs:
   include:
+    - stage: print_ip
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+      before_script:
+        - sudo apt-get install doxygen graphviz -y
+      script:
+        - eval "${MATRIX_EVAL}"
+        - doxygen Doxyfile
+        - cd hw4
+        - cmake .
+        - cmake --build .
+        - cmake --build . --target package
+      deploy:
+        - provider: pages
+          skip_cleanup: true
+          github-token: $GITHUB_TOKEN
+          local-dir: $TRAVIS_BUILD_DIR/html
+          on:
+            branch: master
+        - provider: script
+          skip_cleanup: true
+          script:
+            - $TRAVIS_BUILD_DIR/curl.sh print_ip $TRAVIS_BUILD_NUMBER $BINTRAY_API_KEY
     - stage: allocator
       script:
         - cd hw3
@@ -60,17 +89,6 @@ jobs:
         skip_cleanup: true
         script:
           - $TRAVIS_BUILD_DIR/curl.sh range $TRAVIS_BUILD_NUMBER $BINTRAY_API_KEY
-    - stage: print_ip
-      script:
-        - cd hw4
-        - cmake .
-        - cmake --build .
-        - cmake --build . --target package
-      deploy:
-        provider: script
-        skip_cleanup: true
-        script:
-          - curl -T print_ip-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -usanblch:$BINTRAY_API_KEY "https://api.bintray.com/content/sanblch/homework/homework/$TRAVIS_BUILD_NUMBER/print_ip-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
     - stage: ip_filter
       addons:
         apt:
