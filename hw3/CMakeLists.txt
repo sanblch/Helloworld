@@ -16,11 +16,12 @@ include_directories(
    ${CMAKE_CURRENT_SOURCE_DIR}
    ${CMAKE_CURRENT_BINARY_DIR})
 
- add_executable(allocator
+add_executable(allocator
    logging_allocator.h
    reserving_allocator.h
    mycontainer.h
    allocator.cpp)
+
 set_target_properties(allocator PROPERTIES
   COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra")
 
@@ -34,3 +35,7 @@ set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER sanblch)
 
 include(CPack)
+
+if(BUILD_TESTING)
+  add_subdirectory(test)
+endif()

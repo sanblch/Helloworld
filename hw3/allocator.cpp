@@ -25,9 +25,8 @@ int main(int, char *[]) {
   auto l2 = MyContainer<int, reserving_allocator<MyItem<int>, 10>>{};
   for(int i = 0; i < 10; ++i) {
     l2.push_back(i);
-  }
-  for(auto i : l2)
     std::cout << i << std::endl;
+  }
   std::cout << std::endl;
 
   return 0;

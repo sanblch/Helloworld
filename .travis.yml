@@ -5,6 +5,18 @@ before_install:
   - sudo apt-get install libboost-test-dev -y
 jobs:
   include:
+    - stage: allocator
+      script:
+        - cd hw3
+        - cmake . -DBUILD_TESTING=ON
+        - cmake --build .
+        - cmake --build . --target test
+        - cmake --build . --target package
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script:
+          - $TRAVIS_BUILD_DIR/curl.sh allocator $TRAVIS_BUILD_NUMBER $BINTRAY_API_KEY
     - stage: matrix
       script:
         - cd hw5
@@ -59,18 +71,6 @@ jobs:
         skip_cleanup: true
         script:
           - curl -T print_ip-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -usanblch:$BINTRAY_API_KEY "https://api.bintray.com/content/sanblch/homework/homework/$TRAVIS_BUILD_NUMBER/print_ip-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
-    - stage: allocator
-      script:
-        - cd hw3
-        - cmake .
-        - cmake --build .
-        - cmake --build . --target test
-        - cmake --build . --target package
-      deploy:
-        provider: script
-        skip_cleanup: true
-        script:
-          - curl -T allocator-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -usanblch:$BINTRAY_API_KEY "https://api.bintray.com/content/sanblch/homework/homework/$TRAVIS_BUILD_NUMBER/allocator-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
     - stage: ip_filter
       addons:
         apt:

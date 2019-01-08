@@ -47,8 +47,9 @@ struct reserving_allocator {
     new(p) U(std::forward<Args>(args)...);
   }
 
-  void destroy(T *p) {
-    p->~T();
+  template<typename U>
+  void destroy(U *p) {
+    p->~U();
   }
 
 private:
