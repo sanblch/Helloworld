@@ -1,6 +1,4 @@
-Helloworld
+Homework
 ==========
 
-My first repository
-
-New file is changed!
+Homework repository for the OTUS C++ course.
