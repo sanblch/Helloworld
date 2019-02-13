@@ -1,5 +1,5 @@
 #include "../logging_allocator.h"
-#include "../mycontainer.h"
+#include "../thecontainer.h"
 
 #define BOOST_TEST_MODULE test_allocator
 
