@@ -84,9 +84,15 @@ public:
   using value_type = T;
   using iterator = TheContainerIterator<T>;
 
-  void push_back(T t) {
+  void push_back(const T& t) {
     *next = allocator.allocate(1);
     allocator.construct(*next, nullptr, t);
+    next = &((*next)->next);
+  }
+
+  void push_back(T&& t) {
+    *next = allocator.allocate(1);
+    allocator.construct(*next, nullptr, std::move(t));
     next = &((*next)->next);
   }
 
