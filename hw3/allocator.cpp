@@ -17,12 +17,12 @@ int main(int, char *[]) {
   }
   std::cout << std::endl;
 
-  auto l1 = MyContainer<int>{};
+  auto l1 = TheContainer<int>{};
   for(int i = 0; i < 10; ++i) {
     l1.push_back(i);
   }
 
-  auto l2 = MyContainer<int, reserving_allocator<MyItem<int>, 10>>{};
+  auto l2 = TheContainer<int, reserving_allocator<TheContainerItem<int>, 10>>{};
   for(int i = 0; i < 10; ++i) {
     l2.push_back(i);
     std::cout << i << std::endl;

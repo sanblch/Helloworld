@@ -1,66 +1,66 @@
 #include <memory>
 
 template<typename T>
-class MyIterator;
+class TheContainerIterator;
 
 template<typename T, typename A>
-class MyContainer;
+class TheContainer;
 
 template<typename T>
-class MyItem {
-  friend class MyIterator<T>;
+class TheContainerItem {
+  friend class TheContainerIterator<T>;
   template<class U, class Allocator>
-  friend class MyContainer;
+  friend class TheContainer;
 
-  MyItem* next { nullptr };
+  TheContainerItem* next { nullptr };
   T val {};
 public:
-  MyItem() {}
-  MyItem(MyItem* next) : next(next) {}
-  MyItem(MyItem* next, const T& val) : next(next), val(val) {}
+  TheContainerItem() {}
+  TheContainerItem(TheContainerItem* next) : next(next) {}
+  TheContainerItem(TheContainerItem* next, const T& val) : next(next), val(val) {}
 };
 
 template<typename T>
-class MyIterator {
-  MyItem<T>* item;
+class TheContainerIterator {
+  TheContainerItem<T>* item;
 
 public:
-  MyIterator(MyItem<T>* item) : item(item) {}
+  TheContainerIterator(TheContainerItem<T>* item) : item(item) {}
 
   T operator*() {
     return item->val;
   }
 
-  MyItem<T>* Item() {
+  TheContainerItem<T>* Item() {
     return item;
   }
 
-  MyIterator<T>& operator++() {
+  TheContainerIterator<T>& operator++() {
     item = item->next;
     return *this;
   }
 
-  bool operator!=(const MyIterator<T>& it) const {
+  bool operator!=(const TheContainerIterator<T>& it) const {
     return item != it.item;
   }
 };
 
-template<class T, class Allocator = std::allocator<MyItem<T>>>
-class MyContainer {
+template<class T, class Allocator = std::allocator<TheContainerItem<T>>>
+class TheContainer {
   Allocator allocator;
 
-  MyItem<T>* init { nullptr };
-  MyItem<T>** next { &init };
+  TheContainerItem<T>* init { nullptr };
+  TheContainerItem<T>** next { &init };
 
 public:
-  MyContainer() = default;
+  TheContainer() = default;
 
-  MyContainer(const MyContainer& other) {
+  TheContainer(const TheContainer& other) {
     for(const auto &i : other)
       push_back(i);
   }
 
-  MyContainer(MyContainer&& other) {
+  TheContainer(TheContainer&& other) {
     if (other.init != nullptr) {
       std::swap(init, other.init);
       next = &(init->next);
@@ -70,7 +70,7 @@ public:
     }
   }
 
-  ~MyContainer() {
+  ~TheContainer() {
     auto nxt = init;
     auto fnxt = nxt;
     while(nxt != nullptr) {
@@ -82,7 +82,7 @@ public:
   }
 
   using value_type = T;
-  using iterator = MyIterator<T>;
+  using iterator = TheContainerIterator<T>;
 
   void push_back(T t) {
     *next = allocator.allocate(1);
