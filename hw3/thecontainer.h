@@ -40,14 +40,20 @@ public:
     return *this;
   }
 
+  bool operator==(const TheContainerIterator<T>& it) const {
+    return item == it.item;
+  }
+
   bool operator!=(const TheContainerIterator<T>& it) const {
     return item != it.item;
   }
 };
 
-template<class T, class Allocator = std::allocator<TheContainerItem<T>>>
+template<class T, class Allocator = std::allocator<T>>
 class TheContainer {
-  Allocator allocator;
+  using ItemAllocator = typename Allocator::template rebind<TheContainerItem<T>>::other;
+
+  ItemAllocator allocator;
 
   TheContainerItem<T>* init { nullptr };
   TheContainerItem<T>** next { &init };
@@ -65,8 +71,6 @@ public:
       std::swap(init, other.init);
       next = &(init->next);
       other.next = &other.init;
-      while (*next != nullptr)
-        next = &((*next)->next);
     }
   }
 

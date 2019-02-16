@@ -19,7 +19,7 @@ include_directories(
 add_executable(allocator
    logging_allocator.h
    reserving_allocator.h
-   mycontainer.h
+   thecontainer.h
    allocator.cpp)
 
 set_target_properties(allocator PROPERTIES
