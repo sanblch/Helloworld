@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$structis__serializable_3_01T_00_01void__t_3_01serializable__t_3_01T_00_01std_1_1ostream_01_4_01_4_01_4.html" title="is_serializable\&lt; T,\l void_t\&lt; serializable\l_t\&lt; T, std::ostream \&gt; \&gt; \&gt;" alt="" coords="136,5,327,61"/>
+<area shape="rect" id="node3" href="$structis__std__container_3_01T_00_01void__t_3_01typename_01T_1_1iterator_01_4_00_01void__t_3_01c5fe69ec77aa099ea24da2977a48a129a.html" title="is_std_container\&lt; T,\l void_t\&lt; typename T\l::iterator \&gt;, void_t\l\&lt; container_begin_t\&lt; T\l \&gt; \&gt;, void_t\&lt; container\l_end_t\&lt; T \&gt; \&gt; \&gt;" alt="" coords="145,85,318,185"/>
+<area shape="rect" id="node4" href="$structis__std__tuple_3_01std_1_1tuple_3_01T_01_4_01_4.html" title="is_std_tuple\&lt; std::\ltuple\&lt; T \&gt; \&gt;" alt="" coords="161,209,302,250"/>
+<area shape="rect" id="node5" href="$structis__std__tuple_3_01std_1_1tuple_3_01T_00_01U_8_8_8_01_4_01_4.html" title="is_std_tuple\&lt; std::\ltuple\&lt; T, U... \&gt; \&gt;" alt="" coords="161,274,302,315"/>
+</map>
